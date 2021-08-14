@@ -1,0 +1,15 @@
+*----- Todo List -----*
+[] 1. Create database
+    [] 1.1 users table
+    [] 1.2 posts table
+[] 2. Connect to database
+[] 3. Create Login & Register system
+[] 4. Creat CRUD system ( Create, Read, Update, Delete )
+    [] 3.1 Insert data 
+    [] 3.2 Read data 
+    [] 3.3 Update data 
+    [] 3.4 Delete data
+[] 5. Create search system
+[] 6. Create pagination system
+
+
