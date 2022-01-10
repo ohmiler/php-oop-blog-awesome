@@ -16,7 +16,22 @@
         $post_content = $_POST['post_content'];
         $post_image = $_FILES['post_image'];
         $post_username = $_POST['post_username'];
-        $edit = $postObj->editData($post_id, $post_title, $post_content, $post_image, $post_username);
+        $img2 = $_POST['img2'];
+        $upload = $_FILES['post_image']['name'];
+
+        if ($upload != '') {
+            $allow = array('jpg', 'jpeg', 'png');
+            $extension = explode('.', $post_image['name']);
+            $fileActExt = strtolower(end($extension));
+            $fileNew = rand() . "." . $fileActExt;  // rand function create the rand number 
+            $filePath = 'uploads/'.$fileNew;
+            move_uploaded_file($post_image['tmp_name'], $filePath);
+        } else {
+            $fileNew = $img2;
+        }
+
+        $edit = $postObj->editData($post_id, $post_title, $post_content, $fileNew, $post_username);
+        
         var_dump($edit);
         if ($edit) {
             // Message for successfull insertion
@@ -25,7 +40,7 @@
         } else {
             // Message for unsuccessfull insertion
             echo "<script>alert('Something went wrong. Please try again');</script>";
-            echo "<script>window.location.href='edit.php'</script>";
+            echo "<script>window.location.href='edit.php?id=$post_id'</script>";
         }
     }
 
