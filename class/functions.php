@@ -137,24 +137,12 @@
 
         // แก้ไขข้อมูลบทความ
         public function editData($post_id, $post_title, $post_content, $post_image, $post_username) {
-            $allow = array('jpg', 'jpeg', 'png');
-            $extension = explode('.', $post_image['name']);
-            $fileActExt = strtolower(end($extension));
-            $fileNew = rand() . "." . $fileActExt;  // rand function create the rand number 
-            $filePath = 'uploads/'.$fileNew;
-
-            if (in_array($fileActExt, $allow)) {
-                if ($post_image['size'] > 0 && $post_image['error'] == 0) {
-                    if (move_uploaded_file($post_image['tmp_name'], $filePath)) {
-                        $query = "UPDATE posts SET post_title = '$post_title', 
-                                post_content = '$post_content', 
-                                post_image = '$fileNew',
-                                post_username = '$post_username' WHERE id = '$post_id'";
-                        $sql = $this->con->query($query);
-                        return $sql;
-                    }
-                } 
-            }
+            $query = "UPDATE posts SET post_title = '$post_title', 
+                    post_content = '$post_content', 
+                    post_image = '$post_image',
+                    post_username = '$post_username' WHERE id = '$post_id'";
+            $sql = $this->con->query($query);
+            return $sql;
         }
 
         // ลบบทความ
@@ -172,9 +160,14 @@
         
         // ค้นหาข้อมูล
         public function searchData($term) {
-            $query = "SELECT * FROM posts WHERE post_title LIKE '%".$this->con->real_escape_string($term)."%'";
-            $result = $this->con->query($query);
-            return $result;
+            if ($term == "") {
+                $_SESSION['nodata'] = "กรุณาใส่ข้อมูลที่ต้องการค้นหา";
+                header("location: index.php");
+            } else {
+                $query = "SELECT * FROM posts WHERE post_title LIKE '%".$this->con->real_escape_string($term)."%'";
+                $result = $this->con->query($query);
+                return $result;
+            }
         }
     }
 
