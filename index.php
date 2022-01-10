@@ -70,6 +70,16 @@
 
   <div class="py-5 bg-light">
     <div class="container">
+      
+        <?php if (isset($_SESSION['nodata'])) { ?>
+          <div class="alert alert-danger" role="alert">
+            <?php 
+              echo $_SESSION['nodata'];
+              unset($_SESSION['nodata']);
+            ?>
+          </div>
+        <?php } ?>
+      
         <div class="row">
             <!-- <div class="col-md-4 mb-3">
                 <div class="card">
